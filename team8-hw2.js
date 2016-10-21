@@ -152,15 +152,15 @@ var $blue_slider = $("<input type= 'range' value='127' name= 'blue_slide_value' 
 var $green_slider = $("<input type= 'range' value='127' name= 'green_slide_value' min= '0' max= '255'><label for \"green_slide\"> Green Slider</label></input>").attr("id", "green_slide");
 
 
-$red_slider.on("change", function(){
+$red_slider.on("input", function(){
 	$red_hex_box.val("#" + componentToHex(parseInt($red_slider[0].value)));
 
 });
-$green_slider.on("change", function(){
+$green_slider.on("input", function(){
 	$green_hex_box.val("#" + componentToHex(parseInt($green_slider[0].value)));
 
 });
-$blue_slider.on("change", function(){
+$blue_slider.on("input", function(){
 	$blue_hex_box.val("#" + componentToHex(parseInt($blue_slider[0].value)));
 
 });
