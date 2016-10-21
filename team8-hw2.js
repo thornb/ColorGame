@@ -108,7 +108,7 @@ var evaluateGame = function evaluate_game(){
 	var green_hex = componentToHex(parseInt($green_slider[0].value));
 	var blue_hex = componentToHex(parseInt($blue_slider[0].value));	
 
-	var color_str = "#" + red_hex, green_hex, blue_hex;	
+	var color_str = "#" + red_hex + green_hex +blue_hex;	
 	console.log(color_str);
 
 
