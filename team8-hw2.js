@@ -104,10 +104,12 @@ var evaluateGame = function evaluate_game(){
 	console.log("score", score);
 	if (score < 0){score = 0};
 	$score_display.text("Score: " + Math.round(score * 100) / 100);
-	
-	var color_str = "#" + rgb_to_hex(parseInt($red_slider[0].value), parseInt($green_slider[0].value), parseInt($blue_slider[0].value));	
-	console.log(color_str);
+	var red_hex = componentToHex(parseInt($red_slider[0].value));
+	var green_hex = componentToHex(parseInt($green_slider[0].value));
+	var blue_hex = componentToHex(parseInt($blue_slider[0].value));	
 
+	var color_str = "#" + red_hex, green_hex, blue_hex;	
+	console.log(color_str);
 
 
 	var c=document.getElementById("canvas");
@@ -131,17 +133,10 @@ var try_again = function try_again(){
 
 }
 
- // generate hex color value from slider position
-  function rgb_to_hex(r, g, b) {
-    var hexa = [r.toString(16), g.toString(16), b.toString(16)];
-    $.each(hexa, function(nr, val) {
-      if (val.length === 1) {
-        hexa[nr] = "0" + val;
-      }
-    });
-    return hexa.join("").toUpperCase();
-  }
-
+ function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
 
 //<object> tag defines an embedded object within an HTML document.
 var $color_game_widget = $("<object type=\"widget\"></object>").attr("id", "color_game")
@@ -156,6 +151,23 @@ var $red_slider = $("<input type= 'range' value='127' name= 'red_slide_value' mi
 var $blue_slider = $("<input type= 'range' value='127' name= 'blue_slide_value' min= '0' max= '255'><label for \"blue_slide\"> Blue Slider</label></input>").attr("id", "blue_slide");
 var $green_slider = $("<input type= 'range' value='127' name= 'green_slide_value' min= '0' max= '255'><label for \"green_slide\"> Green Slider</label></input>").attr("id", "green_slide");
 
+
+$red_slider.on("change", function(){
+	$red_hex_box.val("#" + componentToHex(parseInt($red_slider[0].value)));
+
+});
+$green_slider.on("change", function(){
+	$green_hex_box.val("#" + componentToHex(parseInt($green_slider[0].value)));
+
+});
+$blue_slider.on("change", function(){
+	$blue_hex_box.val("#" + componentToHex(parseInt($blue_slider[0].value)));
+
+});
+
+var $red_hex_box = $("<input type ='text'> <label>Guess Red Hex Value </label></input>").attr("id", "red_hex_box");
+var $blue_hex_box = $("<input type ='text'><label> Guess Blue Hex Value</label> </input>").attr("id", "blue_hex_box");
+var $green_hex_box = $("<input type ='text'><label>Guess Green Hex Value </label> </input>").attr("id", "green_hex_box");
 
 //<output> represents the result of a calculation
 var $score_display = $("<output>Score: N/A</output>").attr("id", "score");
@@ -199,7 +211,7 @@ $.fn.hexGame = function(args) {
 	        }, args );
 
 
-	$color_game_widget.append($color_game_widget, $title, $canvas, $red_slider, $blue_slider, $green_slider, $score_display, $difficulty, $rounds, $submit_button, $new_game_button);
+	$color_game_widget.append($red_hex_box, $green_hex_box, $blue_hex_box, $title, $canvas, $red_slider, $blue_slider, $green_slider, $score_display, $difficulty, $rounds, $submit_button, $new_game_button);
 	this.append($color_game_widget);
 	drawCircles();
 }
