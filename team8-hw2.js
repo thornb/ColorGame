@@ -23,12 +23,7 @@ var drawCircles = function draw_circles(){
 	
 	//ctx.fillStyle = "#00A308";
 
-	console.log(sol_red);
-	console.log(sol_green);
-	console.log(sol_blue);
-
 	var colorStr = "#" + sol_red + sol_green + sol_blue;
-	console.log(colorStr);
 
 	ctx.fillStyle = colorStr;
 	ctx.fill();
@@ -75,9 +70,6 @@ var newGame = function new_game(){
 	sol_green = add_zero(sol_green);	
 	sol_blue = add_zero(sol_blue);
 	
-	console.log("sol_red", sol_red);
-	console.log("sol_green", sol_green);
-	console.log("sol_blue", sol_blue);
 
 	round_count = 0;
 	time = new Date().getTime();
@@ -88,6 +80,9 @@ var newGame = function new_game(){
 	$curr_high_score = 0;
 	$high_score_display.text("High Score: N/A");
 	$score_display.text("Score: N/A");
+	$red_error_display.text("");
+    $blue_error_display.text("");
+    $green_error_display.text("");
 	
 	//redraw the circle
 	drawCircles();
@@ -119,6 +114,11 @@ var evaluateGame = function evaluate_game(){
     var red_percentage = Math.floor(((sol_red_int - $red_slider[0].value ) / 255) * 100);
     var green_percentage = Math.floor(((sol_green_int - $green_slider[0].value) / 255) * 100);
     var blue_percentage = Math.floor(((sol_blue_int - $blue_slider[0].value) / 255) * 100);
+    
+    $red_error_display.text("Percent Error: " + red_percentage + "%");
+    $blue_error_display.text("Percent Error: " + blue_percentage + "%");
+    $green_error_display.text("Percent Error: " + green_percentage + "%");
+    
     /*
 	console.log("math.abs(r%,b%,g%)", Math.abs(red_percentage + green_percentage + blue_percentage));
 	console.log("math.abs(r%,b%,g%) is number",  Number.isInteger(parseInt(Math.abs(red_percentage + green_percentage + blue_percentage))));
@@ -129,8 +129,7 @@ var evaluateGame = function evaluate_game(){
 
 	//*/
 	// ((15 – difficulty – percent_off) / (15 – difficulty)) * (15000 – milliseconds_taken)
-	console.log("time:");
-	console.log(time_diff);
+
 	var score = ((15 - parseInt($difficulty[2].value) - (Math.abs(red_percentage + green_percentage + blue_percentage) / parseFloat(300)) ) / (15 - parseInt($difficulty[2].value))) * parseFloat(15000 - parseInt(time_diff));
 	
 	if(score > $curr_high_score){
@@ -211,6 +210,8 @@ $blue_slider.on("input", function(){
 	drawSliderCircle();
 });
 
+
+
 //<<<<<<< HEAD
 //var $red_hex_box = $("<input type ='text' value='7f'> <label>Guess Red Hex Value </label></input>").attr("id", "red_hex_box");
 
@@ -232,6 +233,9 @@ $red_hex_box.on("input",function(){
 	}
 });
 
+//Add percent error
+var $red_error_display = $("<output></output>").attr("id", "error");
+
 //var $blue_hex_box = $("<input type ='text' value='7f'><label> Guess Blue Hex Value</label> </input>").attr("id", "blue_hex_box");
 var $blue_hex_box = $("<input type ='text' value='7f'><label></label> </input>").attr("id", "blue_hex_box");
 //Add functionality to add hex value text into textbox to update slider 
@@ -249,6 +253,8 @@ $blue_hex_box.on("input",function(){
 	}
 });
 
+//Add percent error
+var $blue_error_display = $("<output></output>").attr("id", "error");
 
 //var $green_hex_box = $("<input type ='text' value='7f'><label>Guess Green Hex Value </label> </input>").attr("id", "green_hex_box");
 
@@ -269,6 +275,9 @@ $green_hex_box.on("input",function(){
 		//display an error message
 	}
 });
+
+//Add percent error
+var $green_error_display = $("<output></output>").attr("id", "error");
 
 //<output> represents the result of a calculation
 var $score_display = $("<output>Score: N/A</output>").attr("id", "score");
@@ -317,7 +326,7 @@ $.fn.hexGame = function(args) {
 
 	$color_game_widget.append($color_game_widget, $container);
 	$container.append($container, $title, $instructions, $canvas, $sliders);
-	$sliders.append($red_slider, $red_hex_box, $green_slider, $green_hex_box, $blue_slider, $blue_hex_box)
+	$sliders.append($red_slider, $red_hex_box, $red_error_display, $green_slider, $green_hex_box, $green_error_display, $blue_slider, $blue_hex_box, $blue_error_display)
 	$container.append($info);
 	$info.append($score_display, $high_score_display, $difficulty, $rounds);
 	$container.append($buttons);
