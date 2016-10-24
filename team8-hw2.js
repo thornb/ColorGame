@@ -93,8 +93,11 @@ var newGame = function new_game(){
 
 var evaluateGame = function evaluate_game(){
 	var time_temp = new Date().getTime();
-	time = time_temp;
+	
     var time_diff = time_temp - time;
+	
+	//calcuates time since last guess
+	time = time_temp;
 	round_count++;
 
 	//console.log(round_count);
@@ -122,7 +125,9 @@ var evaluateGame = function evaluate_game(){
 
 	//*/
 	// ((15 – difficulty – percent_off) / (15 – difficulty)) * (15000 – milliseconds_taken)
-	var score = ((15 - parseInt(difficulty[2].value) - (Math.abs(red_percentage + green_percentage + blue_percentage) / 300) ) / (15 - parseInt(difficulty[2].value))) * (15000 - parseInt(time_diff));
+	console.log("time:");
+	console.log(time_diff);
+	var score = ((15 - parseInt($difficulty[2].value) - (Math.abs(red_percentage + green_percentage + blue_percentage) / parseFloat(300)) ) / (15 - parseInt($difficulty[2].value))) * parseFloat(15000 - parseInt(time_diff));
 	console.log("score", score);
 	if (score < 0){score = 0};
 	$score_display.text("Score: " + Math.round(score * 100) / 100);
@@ -192,23 +197,52 @@ $blue_slider.on("input", function(){
 });
 
 var $red_hex_box = $("<input type ='text' value='7f'> <label>Guess Red Hex Value </label></input>").attr("id", "red_hex_box");
+
+//Add functionality to add hex value text into textbox to update slider 
 $red_hex_box.on("input",function(){
 	//regular expression to test if it's a proper hex value
 	var isTwoCharHex = /^[a-fA-F0-9]{2,}$/.test($red_hex_box[0].value);
-	console.log(isTwoCharHex);
 
 	if(isTwoCharHex){
-		$red_slider[0].value = $red_hex_box[0].value;
+		$red_slider[0].value = parseInt($red_hex_box[0].value, 16);
 	}
 
 	else{
-
+		//display an error message
 	}
-
 });
 
 var $blue_hex_box = $("<input type ='text' value='7f'><label> Guess Blue Hex Value</label> </input>").attr("id", "blue_hex_box");
+
+//Add functionality to add hex value text into textbox to update slider 
+$blue_hex_box.on("input",function(){
+	//regular expression to test if it's a proper hex value
+	var isTwoCharHex = /^[a-fA-F0-9]{2,}$/.test($blue_hex_box[0].value);
+
+	if(isTwoCharHex){
+		$blue_slider[0].value = parseInt($blue_hex_box[0].value, 16);
+	}
+
+	else{
+		//display an error message
+	}
+});
+
 var $green_hex_box = $("<input type ='text' value='7f'><label>Guess Green Hex Value </label> </input>").attr("id", "green_hex_box");
+
+//Add functionality to add hex value text into textbox to update slider 
+$green_hex_box.on("input",function(){
+	//regular expression to test if it's a proper hex value
+	var isTwoCharHex = /^[a-fA-F0-9]{2,}$/.test($green_hex_box[0].value);
+
+	if(isTwoCharHex){
+		$green_slider[0].value = parseInt($green_hex_box[0].value, 16);
+	}
+
+	else{
+		//display an error message
+	}
+});
 
 //<output> represents the result of a calculation
 var $score_display = $("<output>Score: N/A</output>").attr("id", "score");
