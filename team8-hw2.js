@@ -1,6 +1,8 @@
 (function($) { //Encaspulates function to prevent namespace pollution
 
 //Functions ====================================================================
+
+//adds a zero to a hex number/letter if it has a length of 1
 function add_zero(input){
 	
 	if(input.length == 1){
@@ -12,6 +14,7 @@ function add_zero(input){
 	
 }
 
+//Draws the circle to guess
 var drawCircles = function draw_circles(){
 
 
@@ -29,6 +32,7 @@ var drawCircles = function draw_circles(){
 
 }
 
+//draws the circle with the user's guess for the hex values
 var drawSliderCircle = function draw_slider_circle(){
 	
 	var red_hex = componentToHex(parseInt($red_slider[0].value));
@@ -36,7 +40,7 @@ var drawSliderCircle = function draw_slider_circle(){
 	var blue_hex = componentToHex(parseInt($blue_slider[0].value));	
 
 	var color_str = "#" + red_hex + green_hex +blue_hex;	
-	console.log(color_str);
+	//console.log(color_str);
 
 	var c=document.getElementById("canvas");
 	var ctx=c.getContext("2d");
@@ -52,7 +56,7 @@ var drawSliderCircle = function draw_slider_circle(){
 }
 
 
-
+//Starts a new game by creating/redrawing a new circle and reseting all the other settings
 var newGame = function new_game(){
 
 	//generate new colors
@@ -86,6 +90,8 @@ var newGame = function new_game(){
 
 }
 
+
+//Calculates the score based on the user guess
 var evaluateGame = function evaluate_game(){
 	var time_temp = new Date().getTime();
 	
@@ -117,45 +123,29 @@ var evaluateGame = function evaluate_game(){
 	console.log("difficulty is number", Number.isInteger(parseInt(difficulty[2].value)));
 	console.log("difficulty",difficulty[2].value);
 	console.log("time_diff is a number", Number.isInteger(parseInt(time_diff)));
-	*/
 	console.log("time_diff", time_diff);
+	*/
 
-	//
+	//calculate the score
 	// ((15 – difficulty – percent_off) / (15 – difficulty)) * (15000 – milliseconds_taken)
-	
 	var score = ((15 - parseInt($difficulty[2].value) - ( (  Math.abs(red_percentage) + Math.abs(green_percentage) + Math.abs(blue_percentage) ) / parseFloat(300)) ) / (15 - parseInt($difficulty[2].value))) * parseFloat(15000 - parseInt(time_diff));
 	
+	//if this is the highest score, display it
 	if(score > $curr_high_score){
 		$curr_high_score = score;
 		$high_score_display.text("High Score: " + Math.round($curr_high_score * 100) / 100);
 	}
 	
-	console.log("score", score);
+	//console.log("score", score);
 	if (score < 0){score = 0};
 	$score_display.text("Score: " + Math.round(score * 100) / 100);
-	// var red_hex = componentToHex(parseInt($red_slider[0].value));
-	// var green_hex = componentToHex(parseInt($green_slider[0].value));
-	// var blue_hex = componentToHex(parseInt($blue_slider[0].value));	
 
-	// var color_str = "#" + red_hex + green_hex +blue_hex;	
-	// console.log(color_str);
-
-
-	// var c=document.getElementById("canvas");
-	// var ctx=c.getContext("2d");
-	// ctx.beginPath();
-	// ctx.arc(200,75,50,0,2*Math.PI);
-
-	// ctx.fillStyle = color_str;
-	// ctx.fill();
-	// ctx.closePath()
-	
 	drawSliderCircle();
 
 
 }
 
-
+//dsiplay message to user that they've reached the game cap, and take away evaluate button
 var try_again = function try_again(){
 	$submit_button.css("visibility", "hidden");
 	$new_game_button.text("Reached the round cap, try again!");
@@ -163,11 +153,13 @@ var try_again = function try_again(){
 
 }
 
- function componentToHex(c) {
+//funtion that turns an integer into hex value
+function componentToHex(c) {
     var hex = c.toString(16);
     return hex.length == 1 ? "0" + hex : hex;
 }
 
+//create the html elements to be included in the HTML document
 //<object> tag defines an embedded object within an HTML document.
 var $color_game_widget = $("<object type=\"widget\"></object>").attr("id", "color_game")
 var $title = $("<h1>HEXED</h1>").attr("id","title");
@@ -181,12 +173,12 @@ var $instructions = $("<p id='instr'>Match the color swatch on the right to the 
 //The <input> tag specifies an input field where the user can enter data.
 //The <label> tag defines a label for an <input> element.
 
-
+//Sliders for the user to edit the color
 var $red_slider = $("<input type= 'range' value='127' name= 'red_slide_value' min= '0' max= '255'><label for 'red_slide'></label></input>").attr("id", "red_slide");
 var $blue_slider = $("<input type= 'range' value='127' name= 'blue_slide_value' min= '0' max= '255'><label for \"blue_slide\"></label></input>").attr("id", "blue_slide");
 var $green_slider = $("<input type= 'range' value='127' name= 'green_slide_value' min= '0' max= '255'><label for \"green_slide\"></label></input>").attr("id", "green_slide");
 
-
+//Add functions to change the text box hex value and redraw the circle with the new color
 $red_slider.on("input", function(){
 	$red_hex_box.val(componentToHex(parseInt($red_slider[0].value)));
 	//Uncomment to see realtime color of circle when sliding
@@ -205,25 +197,20 @@ $blue_slider.on("input", function(){
 
 
 
-//<<<<<<< HEAD
-//var $red_hex_box = $("<input type ='text' value='7f'> <label>Guess Red Hex Value </label></input>").attr("id", "red_hex_box");
-
 //Add functionality to add hex value text into textbox to update slider 
-//=======
 var $red_hex_box = $("<input type ='text' value='7f'> <label></label></input>").attr("id", "red_hex_box");
-//>>>>>>> 6442397b7a84e504fc76eacfe4d328e92f480e57
+
 $red_hex_box.on("input",function(){
 	//regular expression to test if it's a proper hex value
 	var isTwoCharHex = /^[a-fA-F0-9]{2,}$/.test($red_hex_box[0].value);
-
+	
+	//update the slider value if so
 	if(isTwoCharHex){
 		$red_slider[0].value = parseInt($red_hex_box[0].value, 16);
 		drawSliderCircle();
 	}
 
-	else{
-		//display an error message
-	}
+
 });
 
 //Add percent error
@@ -235,38 +222,34 @@ var $blue_hex_box = $("<input type ='text' value='7f'><label></label> </input>")
 $blue_hex_box.on("input",function(){
 	//regular expression to test if it's a proper hex value
 	var isTwoCharHex = /^[a-fA-F0-9]{2,}$/.test($blue_hex_box[0].value);
-
+	
+	//update the slider value if so
 	if(isTwoCharHex){
 		$blue_slider[0].value = parseInt($blue_hex_box[0].value, 16);
 		drawSliderCircle();
 	}
 
-	else{
-		//display an error message
-	}
+	
 });
 
 //Add percent error
 var $blue_error_display = $("<output></output>").attr("id", "error");
 
-//var $green_hex_box = $("<input type ='text' value='7f'><label>Guess Green Hex Value </label> </input>").attr("id", "green_hex_box");
 
 var $green_hex_box = $("<input type ='text' value='7f'><label></label> </input>").attr("id", "green_hex_box");
-//>>>>>>> 6442397b7a84e504fc76eacfe4d328e92f480e57
+
 
 //Add functionality to add hex value text into textbox to update slider 
 $green_hex_box.on("input",function(){
 	//regular expression to test if it's a proper hex value
 	var isTwoCharHex = /^[a-fA-F0-9]{2,}$/.test($green_hex_box[0].value);
-
+	
+	//update the slider value if so
 	if(isTwoCharHex){
 		$green_slider[0].value = parseInt($green_hex_box[0].value, 16);
 		drawSliderCircle();
 	}
 
-	else{
-		//display an error message
-	}
 });
 
 //Add percent error
@@ -275,7 +258,7 @@ var $green_error_display = $("<output></output>").attr("id", "error");
 //<output> represents the result of a calculation
 var $score_display = $("<output>Score: N/A</output>").attr("id", "score");
 
-
+//add other html elements for the difficulty, number of rounds, high score, and submitting
 var $difficulty = $("<param><p>Difficulty:</p><select><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5' selected>5</option><option value='6'>6</option><option value='7'>7</option><option value='8'>8</option><option value='9'>9</option><option value='10'>10</option></select></param>").attr("id", "difficulty");
 
 var $rounds = $("<param><p># of Rounds:</p><input type='number' min='1' step = '1' value = '10'></input></param>").attr("id", "rounds");
@@ -295,11 +278,12 @@ var sol_red_int = Math.floor((Math.random() * 255));
 var sol_green_int = Math.floor((Math.random() * 255));
 var sol_blue_int = Math.floor((Math.random() * 255));
 
-
+//change to hex values
 var sol_red = sol_red_int.toString(16);
 var sol_green = sol_green_int.toString(16);
 var sol_blue = sol_blue_int.toString(16);
 
+//add 0 if length is less than 1
 sol_green = add_zero(sol_green);
 sol_red = add_zero(sol_red);
 sol_blue = add_zero(sol_blue);
@@ -308,7 +292,7 @@ var round_count = 0;
 var time = new Date().getTime();
 
 
-
+//game initialization
 $.fn.hexGame = function(args) { 
 
 	var $settings = $.extend({
