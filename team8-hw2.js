@@ -183,17 +183,17 @@ var $green_slider = $("<input type= 'range' value='127' name= 'green_slide_value
 $red_slider.on("input", function(){
 	$red_hex_box.val(componentToHex(parseInt($red_slider[0].value)));
 	//Uncomment to see realtime color of circle when sliding
-	//drawSliderCircle();
+	drawSliderCircle();
 });
 $green_slider.on("input", function(){
 	$green_hex_box.val(componentToHex(parseInt($green_slider[0].value)));
 	//Uncomment to see realtime color of circle when sliding
-	//drawSliderCircle();
+	drawSliderCircle();
 });
 $blue_slider.on("input", function(){
 	$blue_hex_box.val(componentToHex(parseInt($blue_slider[0].value)));
 	//Uncomment to see realtime color of circle when sliding
-	//drawSliderCircle();
+	drawSliderCircle();
 });
 
 var $red_hex_box = $("<input type ='text' value='7f'> <label>Guess Red Hex Value </label></input>").attr("id", "red_hex_box");
@@ -205,6 +205,7 @@ $red_hex_box.on("input",function(){
 
 	if(isTwoCharHex){
 		$red_slider[0].value = parseInt($red_hex_box[0].value, 16);
+		drawSliderCircle();
 	}
 
 	else{
@@ -221,6 +222,7 @@ $blue_hex_box.on("input",function(){
 
 	if(isTwoCharHex){
 		$blue_slider[0].value = parseInt($blue_hex_box[0].value, 16);
+		drawSliderCircle();
 	}
 
 	else{
@@ -237,6 +239,7 @@ $green_hex_box.on("input",function(){
 
 	if(isTwoCharHex){
 		$green_slider[0].value = parseInt($green_hex_box[0].value, 16);
+		drawSliderCircle();
 	}
 
 	else{
