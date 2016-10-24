@@ -168,16 +168,21 @@ var try_again = function try_again(){
 
 //<object> tag defines an embedded object within an HTML document.
 var $color_game_widget = $("<object type=\"widget\"></object>").attr("id", "color_game")
-var $title = $("<h1>Color Game</h1>").attr("id","title");
+var $title = $("<h1>HEXED</h1>").attr("id","title");
 var $canvas = $("<canvas></canvas>").attr("id","canvas");
+var $container = $("<div>").attr("id", "container");
+var $sliders = $("<div>").attr("id", "sliders");
+var $info = $("<div>").attr("id", "info");
+var $buttons = $("<div>").attr("id", "buttons");
+var $instructions = $("<p id='instr'>Match the color swatch on the right to the color swatch on the left using the RGB sliders.</p>");
 
 //The <input> tag specifies an input field where the user can enter data.
 //The <label> tag defines a label for an <input> element.
 
 
-var $red_slider = $("<input type= 'range' value='127' name= 'red_slide_value' min= '0' max= '255'><label for 'red_slide'> Red Slider</label></input>").attr("id", "red_slide");
-var $blue_slider = $("<input type= 'range' value='127' name= 'blue_slide_value' min= '0' max= '255'><label for \"blue_slide\"> Blue Slider</label></input>").attr("id", "blue_slide");
-var $green_slider = $("<input type= 'range' value='127' name= 'green_slide_value' min= '0' max= '255'><label for \"green_slide\"> Green Slider</label></input>").attr("id", "green_slide");
+var $red_slider = $("<input type= 'range' value='127' name= 'red_slide_value' min= '0' max= '255'><label for 'red_slide'></label></input>").attr("id", "red_slide");
+var $blue_slider = $("<input type= 'range' value='127' name= 'blue_slide_value' min= '0' max= '255'><label for \"blue_slide\"></label></input>").attr("id", "blue_slide");
+var $green_slider = $("<input type= 'range' value='127' name= 'green_slide_value' min= '0' max= '255'><label for \"green_slide\"></label></input>").attr("id", "green_slide");
 
 
 $red_slider.on("input", function(){
@@ -196,9 +201,13 @@ $blue_slider.on("input", function(){
 	drawSliderCircle();
 });
 
-var $red_hex_box = $("<input type ='text' value='7f'> <label>Guess Red Hex Value </label></input>").attr("id", "red_hex_box");
+//<<<<<<< HEAD
+//var $red_hex_box = $("<input type ='text' value='7f'> <label>Guess Red Hex Value </label></input>").attr("id", "red_hex_box");
 
 //Add functionality to add hex value text into textbox to update slider 
+//=======
+var $red_hex_box = $("<input type ='text' value='7f'> <label></label></input>").attr("id", "red_hex_box");
+//>>>>>>> 6442397b7a84e504fc76eacfe4d328e92f480e57
 $red_hex_box.on("input",function(){
 	//regular expression to test if it's a proper hex value
 	var isTwoCharHex = /^[a-fA-F0-9]{2,}$/.test($red_hex_box[0].value);
@@ -213,8 +222,8 @@ $red_hex_box.on("input",function(){
 	}
 });
 
-var $blue_hex_box = $("<input type ='text' value='7f'><label> Guess Blue Hex Value</label> </input>").attr("id", "blue_hex_box");
-
+//var $blue_hex_box = $("<input type ='text' value='7f'><label> Guess Blue Hex Value</label> </input>").attr("id", "blue_hex_box");
+var $blue_hex_box = $("<input type ='text' value='7f'><label></label> </input>").attr("id", "blue_hex_box");
 //Add functionality to add hex value text into textbox to update slider 
 $blue_hex_box.on("input",function(){
 	//regular expression to test if it's a proper hex value
@@ -230,7 +239,11 @@ $blue_hex_box.on("input",function(){
 	}
 });
 
-var $green_hex_box = $("<input type ='text' value='7f'><label>Guess Green Hex Value </label> </input>").attr("id", "green_hex_box");
+
+//var $green_hex_box = $("<input type ='text' value='7f'><label>Guess Green Hex Value </label> </input>").attr("id", "green_hex_box");
+
+var $green_hex_box = $("<input type ='text' value='7f'><label></label> </input>").attr("id", "green_hex_box");
+//>>>>>>> 6442397b7a84e504fc76eacfe4d328e92f480e57
 
 //Add functionality to add hex value text into textbox to update slider 
 $green_hex_box.on("input",function(){
@@ -255,7 +268,7 @@ var $difficulty = $("<param><p>Difficulty:</p><select><option value='1'>1</optio
 
 var $rounds = $("<param><p># of Rounds:</p><input type='number' min='1' step = '1' value = '10'></input></param>").attr("id", "rounds");
 
-var $submit_button = $("<button>CheckIt!</button>").attr("id", "submit");
+var $submit_button = $("<button>Check It!</button>").attr("id", "submit");
 $submit_button.click(evaluateGame);
 
 
@@ -289,7 +302,13 @@ $.fn.hexGame = function(args) {
 	        }, args );
 
 
-	$color_game_widget.append( $title, $canvas, $red_slider, $blue_slider, $green_slider, $red_hex_box, $green_hex_box, $blue_hex_box, $score_display, $difficulty, $rounds, $submit_button, $new_game_button);
+	$color_game_widget.append($color_game_widget, $container);
+	$container.append($container, $title, $instructions, $canvas, $sliders);
+	$sliders.append($red_slider, $red_hex_box, $green_slider, $green_hex_box, $blue_slider, $blue_hex_box)
+	$container.append($info);
+	$info.append($score_display, $difficulty, $rounds);
+	$container.append($buttons);
+	$buttons.append($submit_button, $new_game_button);
 	this.append($color_game_widget);
 	drawCircles();
 }
