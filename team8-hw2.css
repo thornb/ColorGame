@@ -1,5 +1,77 @@
 body{
-	font-family: Verdana, Geneva, sans-serif;
+	background-color: #FAFAFA;
+	font-family: 'Lato', sans-serif;
+}
+#container{
+	width: 60%;
+	margin: 0 auto;
+}
+h1{
+	font-family: 'Bungee Inline', sans-serif;
+	font-size: 4em;
+	text-align: center;
+}
+#instr{
+	text-align: center;
+}
+#canvas{
 	display: block;
+	margin: 0 auto;
+}
+/* make sure styling is functional cross-browser*/
+#sliders{
+	position: relative;
+	left: 25%;
+}
+#red_slide, #green_slide, #blue_slide{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  margin: 15px 0;
+  width: 50%;
+  border-radius: 3px;
+}
+#red_slide{
+  background: #FF0000;
+}
+#green_slide{
+  background: #00FF00;
+}
+#blue_slide{
+  background: #0000FF;
+}
+#red_hex_box, #green_hex_box, #blue_hex_box{
+	margin: 5px;
+	width: 3%;
+	position: relative;
+	bottom: 3px;
+}
+#info{
+	text-align: center;
+	padding: 15px;
+}
+#score, #difficulty, #rounds{
+	display: inline;
+	margin: 10px;
+}
+#buttons{
+	text-align: center;
+}
+button{
+	border:none;
+	border-radius: 3px;
+	background-color: #000000;
+	color: #FFFFFF;
+	margin: 5px;
+	padding: 15px 32px;
+	font-size: 1em;
+	text-decoration: none;
+}
+button:hover{
+	background-color: #333333;
+}
+
+button:focus{
+	outline: 0;
 }
 
