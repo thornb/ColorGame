@@ -102,7 +102,7 @@ var evaluateGame = function evaluate_game(){
 	
 	round_count++;
 
-	if(round_count > $rounds[2].value){
+	if(round_count >= $rounds[2].value){
 		try_again();
 	}
 
