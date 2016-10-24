@@ -20,9 +20,6 @@ var drawCircles = function draw_circles(){
 	ctx.beginPath();
 	ctx.arc(100,75,50,0,2*Math.PI);
 
-	
-	//ctx.fillStyle = "#00A308";
-
 	var colorStr = "#" + sol_red + sol_green + sol_blue;
 
 	ctx.fillStyle = colorStr;
@@ -99,14 +96,9 @@ var evaluateGame = function evaluate_game(){
 	
 	round_count++;
 
-	//console.log(round_count);
 	if(round_count > $rounds[2].value){
 		try_again();
 	}
-
-	//console.log($red_slider.val());
-	//console.log($green_slider.val());
-	//console.log($blue_slider.val());
 
 
 	//calculate difference percentages
@@ -125,12 +117,13 @@ var evaluateGame = function evaluate_game(){
 	console.log("difficulty is number", Number.isInteger(parseInt(difficulty[2].value)));
 	console.log("difficulty",difficulty[2].value);
 	console.log("time_diff is a number", Number.isInteger(parseInt(time_diff)));
+	*/
 	console.log("time_diff", time_diff);
 
-	//*/
+	//
 	// ((15 – difficulty – percent_off) / (15 – difficulty)) * (15000 – milliseconds_taken)
-
-	var score = ((15 - parseInt($difficulty[2].value) - (Math.abs(red_percentage + green_percentage + blue_percentage) / parseFloat(300)) ) / (15 - parseInt($difficulty[2].value))) * parseFloat(15000 - parseInt(time_diff));
+	
+	var score = ((15 - parseInt($difficulty[2].value) - ( (  Math.abs(red_percentage) + Math.abs(green_percentage) + Math.abs(blue_percentage) ) / parseFloat(300)) ) / (15 - parseInt($difficulty[2].value))) * parseFloat(15000 - parseInt(time_diff));
 	
 	if(score > $curr_high_score){
 		$curr_high_score = score;
