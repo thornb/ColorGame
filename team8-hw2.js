@@ -85,6 +85,9 @@ var newGame = function new_game(){
 	$new_game_button.text("New Game");
 	$submit_button.css("visibility", "visible");
 
+	$curr_high_score = 0;
+	$high_score_display.text("High Score: N/A");
+	$score_display.text("Score: N/A");
 	
 	//redraw the circle
 	drawCircles();
@@ -97,7 +100,8 @@ var evaluateGame = function evaluate_game(){
     var time_diff = time_temp - time;
 	
 	//calcuates time since last guess
-	time = time_temp;
+	//time = time_temp;
+	
 	round_count++;
 
 	//console.log(round_count);
@@ -128,6 +132,12 @@ var evaluateGame = function evaluate_game(){
 	console.log("time:");
 	console.log(time_diff);
 	var score = ((15 - parseInt($difficulty[2].value) - (Math.abs(red_percentage + green_percentage + blue_percentage) / parseFloat(300)) ) / (15 - parseInt($difficulty[2].value))) * parseFloat(15000 - parseInt(time_diff));
+	
+	if(score > $curr_high_score){
+		$curr_high_score = score;
+		$high_score_display.text("High Score: " + Math.round($curr_high_score * 100) / 100);
+	}
+	
 	console.log("score", score);
 	if (score < 0){score = 0};
 	$score_display.text("Score: " + Math.round(score * 100) / 100);
@@ -268,6 +278,9 @@ var $difficulty = $("<param><p>Difficulty:</p><select><option value='1'>1</optio
 
 var $rounds = $("<param><p># of Rounds:</p><input type='number' min='1' step = '1' value = '10'></input></param>").attr("id", "rounds");
 
+var $high_score_display = $("<output>High Score: N/A</output>").attr("id", "high_score");
+var $curr_high_score = 0;
+
 var $submit_button = $("<button>Check It!</button>").attr("id", "submit");
 $submit_button.click(evaluateGame);
 
@@ -306,7 +319,7 @@ $.fn.hexGame = function(args) {
 	$container.append($container, $title, $instructions, $canvas, $sliders);
 	$sliders.append($red_slider, $red_hex_box, $green_slider, $green_hex_box, $blue_slider, $blue_hex_box)
 	$container.append($info);
-	$info.append($score_display, $difficulty, $rounds);
+	$info.append($score_display, $high_score_display, $difficulty, $rounds);
 	$container.append($buttons);
 	$buttons.append($submit_button, $new_game_button);
 	this.append($color_game_widget);
