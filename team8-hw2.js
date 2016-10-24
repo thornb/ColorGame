@@ -98,7 +98,7 @@ var evaluateGame = function evaluate_game(){
     var time_diff = time_temp - time;
 	
 	//calcuates time since last guess
-	//time = time_temp;
+	time = time_temp;
 	
 	round_count++;
 
