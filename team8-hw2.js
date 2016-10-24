@@ -37,6 +37,28 @@ var drawCircles = function draw_circles(){
 
 }
 
+var drawSliderCircle = function draw_slider_circle(){
+	
+	var red_hex = componentToHex(parseInt($red_slider[0].value));
+	var green_hex = componentToHex(parseInt($green_slider[0].value));
+	var blue_hex = componentToHex(parseInt($blue_slider[0].value));	
+
+	var color_str = "#" + red_hex + green_hex +blue_hex;	
+	console.log(color_str);
+
+	var c=document.getElementById("canvas");
+	var ctx=c.getContext("2d");
+	ctx.beginPath();
+	ctx.arc(200,75,50,0,2*Math.PI);
+
+	ctx.fillStyle = color_str;
+	ctx.fill();
+	ctx.closePath()
+	
+
+
+}
+
 
 
 var newGame = function new_game(){
@@ -104,23 +126,24 @@ var evaluateGame = function evaluate_game(){
 	console.log("score", score);
 	if (score < 0){score = 0};
 	$score_display.text("Score: " + Math.round(score * 100) / 100);
-	var red_hex = componentToHex(parseInt($red_slider[0].value));
-	var green_hex = componentToHex(parseInt($green_slider[0].value));
-	var blue_hex = componentToHex(parseInt($blue_slider[0].value));	
+	// var red_hex = componentToHex(parseInt($red_slider[0].value));
+	// var green_hex = componentToHex(parseInt($green_slider[0].value));
+	// var blue_hex = componentToHex(parseInt($blue_slider[0].value));	
 
-	var color_str = "#" + red_hex + green_hex +blue_hex;	
-	console.log(color_str);
+	// var color_str = "#" + red_hex + green_hex +blue_hex;	
+	// console.log(color_str);
 
 
-	var c=document.getElementById("canvas");
-	var ctx=c.getContext("2d");
-	ctx.beginPath();
-	ctx.arc(200,75,50,0,2*Math.PI);
+	// var c=document.getElementById("canvas");
+	// var ctx=c.getContext("2d");
+	// ctx.beginPath();
+	// ctx.arc(200,75,50,0,2*Math.PI);
 
-	ctx.fillStyle = color_str;
-	ctx.fill();
-	ctx.closePath()
+	// ctx.fillStyle = color_str;
+	// ctx.fill();
+	// ctx.closePath()
 	
+	drawSliderCircle();
 
 
 }
@@ -153,21 +176,39 @@ var $green_slider = $("<input type= 'range' value='127' name= 'green_slide_value
 
 
 $red_slider.on("input", function(){
-	$red_hex_box.val("#" + componentToHex(parseInt($red_slider[0].value)));
-
+	$red_hex_box.val(componentToHex(parseInt($red_slider[0].value)));
+	//Uncomment to see realtime color of circle when sliding
+	//drawSliderCircle();
 });
 $green_slider.on("input", function(){
-	$green_hex_box.val("#" + componentToHex(parseInt($green_slider[0].value)));
-
+	$green_hex_box.val(componentToHex(parseInt($green_slider[0].value)));
+	//Uncomment to see realtime color of circle when sliding
+	//drawSliderCircle();
 });
 $blue_slider.on("input", function(){
-	$blue_hex_box.val("#" + componentToHex(parseInt($blue_slider[0].value)));
+	$blue_hex_box.val(componentToHex(parseInt($blue_slider[0].value)));
+	//Uncomment to see realtime color of circle when sliding
+	//drawSliderCircle();
+});
+
+var $red_hex_box = $("<input type ='text' value='7f'> <label>Guess Red Hex Value </label></input>").attr("id", "red_hex_box");
+$red_hex_box.on("input",function(){
+	//regular expression to test if it's a proper hex value
+	var isTwoCharHex = /^[a-fA-F0-9]{2,}$/.test($red_hex_box[0].value);
+	console.log(isTwoCharHex);
+
+	if(isTwoCharHex){
+		$red_slider[0].value = $red_hex_box[0].value;
+	}
+
+	else{
+
+	}
 
 });
 
-var $red_hex_box = $("<input type ='text'> <label>Guess Red Hex Value </label></input>").attr("id", "red_hex_box");
-var $blue_hex_box = $("<input type ='text'><label> Guess Blue Hex Value</label> </input>").attr("id", "blue_hex_box");
-var $green_hex_box = $("<input type ='text'><label>Guess Green Hex Value </label> </input>").attr("id", "green_hex_box");
+var $blue_hex_box = $("<input type ='text' value='7f'><label> Guess Blue Hex Value</label> </input>").attr("id", "blue_hex_box");
+var $green_hex_box = $("<input type ='text' value='7f'><label>Guess Green Hex Value </label> </input>").attr("id", "green_hex_box");
 
 //<output> represents the result of a calculation
 var $score_display = $("<output>Score: N/A</output>").attr("id", "score");
@@ -211,7 +252,7 @@ $.fn.hexGame = function(args) {
 	        }, args );
 
 
-	$color_game_widget.append($red_hex_box, $green_hex_box, $blue_hex_box, $title, $canvas, $red_slider, $blue_slider, $green_slider, $score_display, $difficulty, $rounds, $submit_button, $new_game_button);
+	$color_game_widget.append( $title, $canvas, $red_slider, $blue_slider, $green_slider, $red_hex_box, $green_hex_box, $blue_hex_box, $score_display, $difficulty, $rounds, $submit_button, $new_game_button);
 	this.append($color_game_widget);
 	drawCircles();
 }
