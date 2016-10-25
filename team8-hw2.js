@@ -98,11 +98,11 @@ var evaluateGame = function evaluate_game(){
     var time_diff = time_temp - time;
 	
 	//calcuates time since last guess
-	//time = time_temp;
+	time = time_temp;
 	
 	round_count++;
 
-	if(round_count > $rounds[2].value){
+	if(round_count >= $rounds[2].value){
 		try_again();
 	}
 
